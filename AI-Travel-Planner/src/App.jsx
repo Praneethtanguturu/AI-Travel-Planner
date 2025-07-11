@@ -1,11 +1,18 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Button } from "@/components/ui/button"
 import Header from "./components/custom/Header"
+import Hero from "./components/custom/Hero"
+import CreateTrip from "./create-trip/index.jsx";
 
 function App() {
   return (
-    <div className="flex min-h-svh flex-col items-center justify-center">
+    <BrowserRouter>
       <Header />
-    </div>
+      <Routes>
+        <Route path="/" element={<Hero />} />
+        <Route path="/create-trip" element={<CreateTrip />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 

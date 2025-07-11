@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 
 const Hero = () => {
   return (
@@ -13,9 +14,12 @@ const Hero = () => {
                 Your personal trip planner and travel curator, creating custom itineraries tailored to your interests and budget.
             </p>
 
-            <button className="bg-black text-white px-6 py-3 rounded-md text-base hover:bg-gray-800 transition duration-200">
-                Get Started, It's Free
-            </button>
+            <Link to={'/create-trip'}>
+                <button className="bg-black text-white px-6 py-3 rounded-md text-base hover:bg-gray-800 transition duration-200">
+                    Get Started, It's Free
+                </button>
+            </Link>
+            
         </div>
     </section>
   )
