@@ -3,10 +3,15 @@ import GooglePlacesAutocomplete from 'react-google-places-autocomplete'
 import Input from '../components/ui/input.jsx';
 import { AI_PROMPT, SelectBudgetOptions,SelectTravelList } from "@/constants/options"
 import { Button } from "@/components/ui/button"
+import { Toaster } from "@/components/ui/sonner"
+import { toast } from "sonner"
+import { chatSession } from "@/service/AIModal"
 
 const CreateTrip = () => {
   const [place, setPlace] = useState();
   const [formData,setFormData]=useState({});
+  const [openDialog,setOpenDialog]=useState(false);
+  const [loading,setLoading]=useState(false);
   const apiKey = import.meta.env.VITE_GOOGLE_PLACES_API_KEY
   
   const handleInputChange=(name,value)=>{
@@ -17,6 +22,43 @@ const CreateTrip = () => {
       console.log(formData)
     },[formData])
   
+  const OnGenerateTrip = async()=>{
+      const user = localStorage.getItem('user')
+      if(!user){
+        setOpenDialog(true)
+        return ;
+      }
+      if(formData?.totalDays>5 || !formData?.location || !formData?.budget || !formData?.traveler){
+        toast("Please fill all details!")
+        return ;
+      }
+      toast("Form generated.");
+      setLoading(true);
+      const FINAL_PROMPT=AI_PROMPT
+      .replace('{location}',formData?.location)
+      .replace('{totalDays}',formData?.totalDays)
+      .replace('{traveler}',formData?.traveler)
+      .replace('{budget}',formData?.budget)
+  
+      const result=await chatSession.sendMessage(FINAL_PROMPT);
+      // console.log("--",result?.response?.text());
+      setLoading(false);
+      SaveAiTrip(result?.response?.text());
+    } 
+
+    const SaveAiTrip=async(TripData) => {
+        setLoading(true);
+        const user=JSON.parse(localStorage.getItem("user"));
+        const docId=Date.now().toString();
+        await setDoc(doc(db, "AiTrips", docId), {
+          userSelection:formData,
+          tripData:JSON.parse(TripData),
+          userEmail:user?.email,
+          id:docId
+        });
+        setLoading(false);
+        navigate('/view-trip/'+docId);
+    }
 
   return (
     <div className="px-5 mt-12 sm:px-10 md:px-32 lg:px-56 xl:px-72">
