@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button"
 import Header from "./components/custom/Header"
 import Hero from "./components/custom/Hero"
 import CreateTrip from "./create-trip/index.jsx";
+import Viewtrip from './view-trip/[tripId]/index.jsx'
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Hero />} />
         <Route path="/create-trip" element={<CreateTrip />} />
+        <Route path="/view-trip/:tripId" element={<Viewtrip />} />
       </Routes>
     </BrowserRouter>
   )
