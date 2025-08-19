@@ -19,7 +19,6 @@ An **AI-powered travel planning application** that generates **personalized itin
 - **Frontend:** React.js, Tailwind CSS  
 - **Backend:** Firebase (Auth + Firestore)  
 - **AI Integration:** Gemini API  
-- **Deployment:** Vercel / Firebase Hosting  
 
 ---
 
